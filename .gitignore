@@ -1,0 +1,14 @@
+node_modules
+.DS_Store
+dist-ssr
+dist
+*.local
+yarn.lock
+pnpm-lock.yaml
+package-lock.json
+/docs/.vitepress/cache
+
+
+.stylelintcache
+.eslintcache
+.prettiercache

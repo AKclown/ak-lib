@@ -1,0 +1,30 @@
+{
+  "private": true,
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "pnpm -C play dev",
+    "typecheck": "run-p typecheck:web typecheck:play typecheck:node typecheck:vitest",
+    "typecheck:node": "tsc -p tsconfig.node.json --noEmit",
+    "typecheck:web": "vue-tsc -p tsconfig.web.json --composite false --noEmit",
+    "typecheck:play": "vue-tsc -p tsconfig.play.json --composite false --noEmit",
+    "typecheck:vitest": "vue-tsc -p tsconfig.vitest.json --composite false --noEmit"
+  },
+  "dependencies": {
+    "@akclown-ui/components": "workspace:*",
+    "@akclown-ui/hooks": "workspace:*",
+    "@akclown-ui/theme-chalk": "workspace:*",
+    "@akclown-ui/utils": "workspace:*"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^22.7.6",
+    "npm-run-all": "^4.1.5",
+    "sass": "^1.80.3",
+    "typescript": "^5.6.3",
+    "vue": "^3.5.12"
+  }
+}
