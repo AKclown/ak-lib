@@ -10,10 +10,10 @@
 }
 
 @mixin e($element) {
-  $E: $element !global;
   $selector: &;
   $currentSelector: "";
   @each $unit in $element {
+    // .el-icon__white,.el-icon__black
     $currentSelector: #{$currentSelector +
       "." +
       $B +
@@ -22,8 +22,10 @@
       ","};
   }
 
+  // 判断父级选择器，是否包含 修饰符`--`  状态`.is-`  伪类`：`   这三种字符
   @if hitAllSpecialNestRule($selector) {
     @at-root {
+      // 私有类型
       #{$selector} {
         #{$currentSelector} {
           @content;
@@ -32,6 +34,7 @@
     }
   } @else {
     @at-root {
+      // 公有类型
       #{$currentSelector} {
         @content;
       }

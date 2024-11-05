@@ -1,10 +1,7 @@
 <template>
   <div>
-    <el-icon :color="'green'" :size="18"><EditIcon /></el-icon>
-    <el-button :disabled="true">按钮</el-button>
+    <el-icon color="#999">Icon</el-icon>
   </div>
 </template>
-<script setup lang="ts">
-import EditIcon from "./EditIcon.vue";
-</script>
+<script setup lang="ts"></script>
 <style scoped></style>

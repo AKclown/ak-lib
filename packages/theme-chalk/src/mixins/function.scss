@@ -1,29 +1,34 @@
-@use 'config';
+@use "config";
+@use "sass:meta";
+@use "sass:string";
 
-// 该函数将选择器转化为字符串，并截取指定位置的字符
+// 该函数将选择器转化为字符串，并截取指定位置的字符（获取父元素的class）
 @function selectorToString($selector) {
-  $selector: inspect(
+  $selector: meta.inspect(
     $selector
   ); // inspect(...) 表达式中的内容如果是正常会返回对应的内容，如果发生错误则会弹出一个错误提示。
-  $selector: str-slice($selector, 2, -2); // str-slice 截取指定字符
+  // [start,end]都是闭区间
+  $selector: string.slice($selector, 2, -2);
+  // .el-icon
   @return $selector;
 }
 // 判断父级选择器是否包含'--'
 @function containsModifier($selector) {
   $selector: selectorToString($selector);
 
-  @if str-index($selector, config.$modifier-separator) {
-    // str-index 返回字符串的第一个索引
+  @if string.index($selector, config.$modifier-separator) {
+    // string.index 返回字符串的第一个索引
     @return true;
   } @else {
     @return false;
   }
 }
+
 // 判断父级选择器是否包含'.is-'
 @function containWhenFlag($selector) {
   $selector: selectorToString($selector);
 
-  @if str-index($selector, '.' + config.$state-prefix) {
+  @if string.index($selector, "." + config.$state-prefix) {
     @return true;
   } @else {
     @return false;
@@ -33,15 +38,19 @@
 @function containPseudoClass($selector) {
   $selector: selectorToString($selector);
 
-  @if str-index($selector, ':') {
+  @if string.index($selector, ":") {
     @return true;
   } @else {
     @return false;
   }
 }
+
 // 判断父级选择器，是否包含`--` `.is-`  `：`这三种字符
 @function hitAllSpecialNestRule($selector) {
+  // 1.containsModifier 判断是否存在 --
+  // 2.containWhenFlag 判断是否存在 .is-
+  // 3.containPseudoClass 判断是否存在 ：
+
   @return containsModifier($selector) or containWhenFlag($selector) or
     containPseudoClass($selector);
 }
-

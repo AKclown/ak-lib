@@ -1,0 +1,16 @@
+{
+  "name": "@akclown-ui/tokens",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.ts",
+  "module": "index.ts",
+  "unpkg": "index.js",
+  "jsdelivr": "index.js",
+  "types": "index.d.ts",
+  "peerDependencies": {
+    "vue": "^3.5.12"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

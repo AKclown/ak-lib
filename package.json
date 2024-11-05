@@ -15,7 +15,9 @@
     "@akclown-ui/components": "workspace:*",
     "@akclown-ui/hooks": "workspace:*",
     "@akclown-ui/theme-chalk": "workspace:*",
-    "@akclown-ui/utils": "workspace:*"
+    "@akclown-ui/utils": "workspace:*",
+    "@akclown-ui/tokens": "workspace:*",
+    "@element-plus/icons-vue": "^2.3.1"
   },
   "keywords": [],
   "author": "",

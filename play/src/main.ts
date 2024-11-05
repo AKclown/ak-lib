@@ -2,11 +2,11 @@ import { createApp } from 'vue'
 import './style.css'
 import App from './App.vue'
 import ElIcon from '@akclown-ui/components/icon'
-import ElButton from '@akclown-ui/components/button'
+import ElButton, { ElButtonGroup } from '@akclown-ui/components/button'
 import '@akclown-ui/theme-chalk/src/index.scss'
 
 // 组件库
-const components = [ElIcon, ElButton]
+const components = [ElIcon, ElButton, ElButtonGroup]
 // 是否已安装标识
 const INSTALLED_KEY = Symbol('INSTALLED_KEY')
 // 组件库插件
