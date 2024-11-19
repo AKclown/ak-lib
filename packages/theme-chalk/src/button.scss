@@ -1,0 +1,10 @@
+// 因为要实现按需导入组件，所以各个组件单独一个css文件
+
+@use "common/var" as *;
+@use "mixins/mixins" as *;
+@use "mixins/var" as *;
+
+@include b(button) {
+  // --el-button-...
+  @include set-component-css-var("button", $button);
+}

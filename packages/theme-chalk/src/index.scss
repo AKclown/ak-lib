@@ -1,1 +1,5 @@
-@use './icon.scss';
+// UI样式 + 布局结构
+@use "./common/var.scss";
+@use "base.scss";
+@use "button.scss";
+@use "icon.scss";

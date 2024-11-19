@@ -1,3 +1,5 @@
+// 全局的 SCSS 自定义函数
+
 @use "config";
 @use "sass:meta";
 @use "sass:string";
@@ -53,4 +55,28 @@
 
   @return containsModifier($selector) or containWhenFlag($selector) or
     containPseudoClass($selector);
+}
+
+// join var name
+// joinVarName(('button', 'text-color')) => '--el-button-text-color'
+@function joinVarName($list) {
+  $name: "--" + config.$namespace;
+
+  @each $item in $list {
+    @if $item != "" {
+      $name: $name + "-" + $item;
+    }
+  }
+
+  @return $name;
+}
+
+// getCssVarName('button', 'text-color') => '--el-button-text-color'
+@function getCssVarName($args...) {
+  @return joinVarName($args);
+}
+
+// getCssVar('button', 'text-color') => var(--el-button-text-color)
+@function getCssVar($args...) {
+  @return var(#{joinVarName($args)});
 }

@@ -1,0 +1,162 @@
+// SCSS 变量配置文件
+@use "sass:color";
+@use "sass:map";
+@use "sass:math";
+
+// () scss中变量空数组的表示方式
+// !default 表示默认变量，将来可以使用@forward修改默认变量
+// $ 只有使用 !default 标志写入样式表顶层的变量才可以配置
+$colors: () !default;
+
+// $ 先设置一个总的$colors变量，然后再单独设置每一个具体类型的变量，变量值是继承$colors变量，
+// $ 这样将来只要修改$colors中的变量值，后续每个继承$colors变量的SCSS变量都将发生改变
+
+// 为什么不直接把相关变量设置写到默认变量中呢？
+// 因为将来用户在使用@forward修改SCSS中的默认变量时，有可能只修改其中部分的选项，并不是全部修改，
+// 如果相关变量写在默认变量，那么使用@forward修改默认变量时，就不能修改部分选项了。
+// 目前这种通过map.deep-merge合并默认变量的选项的方式则可以达到将来只修改部分选项的目的，变得更加灵活
+
+// https://stackoverflow.com/questions/73353442/what-are-the-differences-between-use-and-forward-in-sass
+// @forward和@use要一起使用的，假如有一组样式在多个scss文件使用  先使用@forward在单文件统一抛出一组样式表，然后在使用@use 该文件引入
+
+// 例如：
+// @forward 'element-plus/theme-chalk/src/common/var.scss' with (
+//   $colors: (
+//     'primary': (
+//       'base': green,
+//     ),
+//   ),
+// )
+
+$colors: map.deep-merge(
+  (
+    "white": #ffffff,
+    "black": #000000,
+    "primary": (
+      "base": #409eff,
+    ),
+    "success": (
+      "base": #67c23a,
+    ),
+    "warning": (
+      "base": #e6a23c,
+    ),
+    "danger": (
+      "base": #f56c6c,
+    ),
+    "error": (
+      "base": #f56c6c,
+    ),
+    "info": (
+      "base": #909399,
+    ),
+  ),
+  $colors
+);
+
+$color-white: map.get($colors, "white") !default;
+$color-black: map.get($colors, "black") !default;
+$color-primary: map.get($colors, "primary", "base") !default;
+$color-success: map.get($colors, "success", "base") !default;
+$color-warning: map.get($colors, "warning", "base") !default;
+$color-danger: map.get($colors, "danger", "base") !default;
+$color-error: map.get($colors, "error", "base") !default;
+$color-info: map.get($colors, "info", "base") !default;
+
+@mixin set-color-mix-level(
+  $type,
+  $number,
+  $mode: "light",
+  $mix-color: $color-white
+) {
+  $colors: map.deep-merge(
+    (
+      $type: (
+        "#{$mode}-#{$number}":
+          // color.mix将两种颜色根据一定比例混合在一起，生成另外一种颜色
+        color.mix(
+            $mix-color,
+            map.get($colors, $type, "base"),
+            math.percentage(math.div($number, 10))
+          ),
+      ),
+    ),
+    $colors
+  ) !global;
+}
+
+// types
+$types: primary, success, warning, danger, error, info;
+@each $type in $types {
+  @for $i from 1 through 9 {
+    // primary ( 'light-1': #~ ,'light-2': #~ )
+    @include set-color-mix-level($type, $i, "light", $color-white);
+  }
+}
+
+// 深色模式
+@each $type in $types {
+  @include set-color-mix-level($type, 2, "dark", $color-black);
+}
+
+// 背景颜色
+$bg-color: () !default;
+$bg-color: map.merge(
+  (
+    "": #ffffff,
+    "page": #f2f3f5,
+    "overlay": #ffffff,
+  ),
+  $bg-color
+);
+
+// 文本颜色
+$text-color: () !default;
+$text-color: map.merge(
+  (
+    "primary": #303133,
+    "regular": #606266,
+    "secondary": #909399,
+    "placeholder": #a8abb2,
+    "disabled": #c0c4cc,
+  )
+);
+
+// 边框颜色
+$border-color: () !default;
+$border-color: map.merge(
+  (
+    "": #dcdfe6,
+    "light": #e4e7ed,
+    "lighter": #ebeef5,
+    "extra-light": #f2f6fc,
+    "dark": #d4d7de,
+    "darker": #cdd0d6,
+  ),
+  $border-color
+);
+
+// button
+$button: () !default;
+$button: map.merge(
+  (
+    "font-weight": getCssVar("font-weight-primary"),
+    "border-color": getCssVar("border-color"),
+    "bg-color": getCssVar("fill-color", "blank"),
+    "text-color": getCssVar("text-color", "regular"),
+    "disabled-text-color": getCssVar("disabled-text-color"),
+    "disabled-bg-color": getCssVar("fill-color", "blank"),
+    "disabled-border-color": getCssVar("border-color-light"),
+    "divide-border-color": rgba($color-white, 0.5),
+    "hover-text-color": getCssVar("color-primary"),
+    "hover-bg-color": getCssVar("color-primary", "light-9"),
+    "hover-border-color": getCssVar("color-primary-light-7"),
+    "active-text-color": getCssVar("button-hover-text-color"),
+    "active-border-color": getCssVar("color-primary"),
+    "active-bg-color": getCssVar("button", "hover-bg-color"),
+    "outline-color": getCssVar("color-primary", "light-5"),
+    "hover-link-text-color": getCssVar("color-info"),
+    "active-color": getCssVar("text-color", "primary"),
+  ),
+  $button
+);

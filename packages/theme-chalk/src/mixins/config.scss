@@ -1,3 +1,5 @@
+// 配置文件
+
 $namespace: 'el' !default; // 所有的组件以el开头，如 el-input
 $common-separator: '-' !default; // 公共的连接符
 $element-separator: '__' !default; // 元素以__分割，如 el-input__inner
