@@ -1,1 +1,22 @@
 // CSS 变量配置文件,封装全局的CSS变量
+
+@use './common/var' as *;
+@use "mixins/_var" as *;
+
+:root {
+  color-scheme: light;
+
+  // 注册一些公共样式
+  
+  @each $type in (primary, success, warning, danger, error, info) {
+    // --el-color-#{$type}
+    // --el-color-{$type}-light-{$i}
+    // --el-color-{$type}-dark-2
+    @include set-css-color-type($colors, $type);
+  }
+
+  // $ 分组的样式 （规划: 每一个组件为一个分组） - 生成
+  @include set-component-css-var("bg-color", $bg-color);
+  @include set-component-css-var("text-color", $text-color);
+  @include set-component-css-var("border-color", $border-color);
+}

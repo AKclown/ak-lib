@@ -1,0 +1,12 @@
+// 因为要实现按需导入组件，所以各个组件单独一个css文件
+
+@use "sass:map";
+@use "common/var" as *;
+@use "mixins/mixins" as *;
+@use "mixins/var" as *;
+
+@include b(checkbox) {
+  // $ 生成组件 CSS 变量
+  // --el-checkbox-...
+  @include set-component-css-var("checkbox", $checkbox);
+}

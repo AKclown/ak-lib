@@ -3,9 +3,9 @@
 @use "sass:map";
 @use "sass:math";
 
-// () scss中变量空数组的表示方式
+// () scss中 变量空数组 的表示方式
 // !default 表示默认变量，将来可以使用@forward修改默认变量
-// $ 只有使用 !default 标志写入样式表顶层的变量才可以配置
+// $ 只有使用 !default 标志写入样式表顶层的变量才可以配置,
 $colors: () !default;
 
 // $ 先设置一个总的$colors变量，然后再单独设置每一个具体类型的变量，变量值是继承$colors变量，
@@ -99,6 +99,9 @@ $types: primary, success, warning, danger, error, info;
   @include set-color-mix-level($type, 2, "dark", $color-black);
 }
 
+// $ 分组的模式生成不通过分组的CSS变量，比如文本颜色、会有很多种颜色，那么文本颜色就为一个分组
+// $ 还有背景颜色、边框颜色、还有我们每个组件的需要用到的CSS变量，也是以一个组件为分组  生成一组CSS变量
+
 // 背景颜色
 $bg-color: () !default;
 $bg-color: map.merge(
@@ -119,7 +122,8 @@ $text-color: map.merge(
     "secondary": #909399,
     "placeholder": #a8abb2,
     "disabled": #c0c4cc,
-  )
+  ),
+  $text-color
 );
 
 // 边框颜色
@@ -136,7 +140,25 @@ $border-color: map.merge(
   $border-color
 );
 
+$common-component-size: () !default;
+$common-component-size: map.merge(
+  (
+    "large": 40px,
+    "default": 32px,
+    "small": 24px,
+  ),
+  $common-component-size
+);
+
+$input-height: () !default;
+$input-height: map.merge($common-component-size, $input-height);
+
 // button
+// !!! 组件自身 基于公共 CSS 变量进行封装的 CSS 变量。
+// 为了方便拓展和维护，我们将  css变量值  的设置在  SCSS的变量文件 中
+
+// Button组件相关 UI样式的 SCSS变量的值是 getCssVar函数获取的全局的CSS变量，这样将来生成新的CSS变量的值就是继承于全局的CSS变量
+// 有些特别变量不是"全局的 CSS 变量"
 $button: () !default;
 $button: map.merge(
   (
@@ -159,4 +181,29 @@ $button: map.merge(
     "active-color": getCssVar("text-color", "primary"),
   ),
   $button
+);
+
+$checkbox: () !default;
+$checkbox: map.merge(
+  (
+    "font-size": 14px,
+    "font-weight": getCssVar("font-weight-primary"),
+    "text-color": getCssVar("text-color-regular"),
+    "input-height": 14px,
+    "input-width": 14px,
+    "border-radius": getCssVar("border-radius-small"),
+    "bg-color": getCssVar("fill-color", "blank"),
+    "disabled-border-color": getCssVar("border-color"),
+    "disabled-input-fill": getCssVar("fill-color", "light"),
+    "disabled-icon-color": getCssVar("text-color-placeholder"),
+    "disabled-checked-input-fill": getCssVar("border-color-extra-light"),
+    "disabled-checked-input-border-color": getCssVar("border-color"),
+    "disabled-checked-icon-color": getCssVar("text-color-placeholder"),
+    "checked-text-color": getCssVar("color-primary"),
+    "checked-input-border-color": getCssVar("color-primary"),
+    "checked-bg-color": getCssVar("color-primary"),
+    "checked-icon-color": getCssVar("color", "white"),
+    "input-border-color-hover": getCssVar("color-primary"),
+  ),
+  $checkbox
 );
