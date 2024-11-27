@@ -76,6 +76,7 @@
   @return joinVarName($args);
 }
 
+// 获取CSS变量对应的样式值
 // getCssVar('button', 'text-color') => var(--el-button-text-color)
 @function getCssVar($args...) {
   @return var(#{joinVarName($args)});

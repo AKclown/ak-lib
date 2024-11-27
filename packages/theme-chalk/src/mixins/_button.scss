@@ -1,0 +1,94 @@
+@use "var" as *;
+@use "function" as *;
+@use "../common/var" as *;
+
+// 根据    不同的类型   生成   不同的修改器的CSS变量
+@mixin button-variant($type) {
+  $button-color-types: (
+    "": (
+      "text-color": (
+        "color",
+        "white",
+      ),
+      "bg-color": (
+        "color",
+        $type,
+      ),
+      "border-color": (
+        "color",
+        $type,
+      ),
+      "outline-color": (
+        "color",
+        $type,
+        "light-5",
+      ),
+      "active-color": (
+        "color",
+        $type,
+        "dark-2",
+      ),
+    ),
+
+    "hover": (
+      "text-color": (
+        "color",
+        "white",
+      ),
+      "link-text-color": (
+        "color",
+        $type,
+        "light-5",
+      ),
+      "bg-color": (
+        "color",
+        $type,
+        "light-3",
+      ),
+      "border-color": (
+        "color",
+        $type,
+        "light-3",
+      ),
+    ),
+
+    "active": (
+      "bg-color": (
+        "color",
+        $type,
+        "dark-2",
+      ),
+      "border-color": (
+        "color",
+        $type,
+        "dark-2",
+      ),
+    ),
+
+    "disabled": (
+      "text-color": (
+        "color",
+        "white",
+      ),
+      "bg-color": (
+        "color",
+        $type,
+        "light-5",
+      ),
+      "border-color": (
+        "color",
+        $type,
+        "light-5",
+      ),
+    ),
+  );
+
+  @each $type, $typeMap in $button-color-types {
+    @each $typeColor, $list in $typeMap {
+      // 1. 第一个参数生成对应的Button组件的CSS变量名称
+      // 2. 第二个参数生成对应全局的CSS变量名称，然后通过原生的CSS函数var读取全局CSS变量
+      // --button-#{$type}-#{$typeColor}: var(--el-#{$list});
+      @include css-var-from-global(("button", $type, $typeColor), $list);
+    }
+  }
+}

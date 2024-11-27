@@ -1,8 +1,8 @@
 // CSS 变量相关的 SCSS 自定义函数
-@use 'sass:map';
-@use 'sass:color';
+@use "sass:map";
+@use "sass:color";
 
-@use '../common/var' as *;
+@use "../common/var" as *;
 @use "function" as *;
 @use "config" as *;
 
@@ -41,4 +41,13 @@
       #{getCssVarName($name, $attribute)}: #{$value};
     }
   }
+}
+
+// 从存在css变量生成css变量
+// @include css-var-from-global(('button', 'text-color'), ('color', $type))
+// --el-button-text-color: var(--el-color-#{$type});
+@mixin css-var-from-global($var, $gVar) {
+  $varName: joinVarName($var);
+  $gVarName: joinVarName($gVar);
+  #{$varName}: var(#{$gVarName});
 }

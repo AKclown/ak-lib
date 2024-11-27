@@ -5,6 +5,7 @@
 @use "mixins/mixins" as *;
 @use "mixins/var" as *;
 @use "mixins/function" as *;
+@use "mixins/button" as *;
 
 // el-button
 @include b(button) {
@@ -42,6 +43,22 @@
   background-color: getCssVar("button", "bg-color");
   border: getCssVar("border");
   border-color: getCssVar("button", "border-color");
+
+  // button组件和其他组件的样式有一个最大的不同就是，Button组件默认是有primary, success, warning, danger, info
+  // 加上默认的主题色，一共有六种主题色，而我们上面实现的是默认的主题色，也是所有其他组件的默认实现方式
+
+  // "多态": 根据不同的 classname 来进行实现不同的 UI 样式的 CSS 变量,
+  // 对应的分别是 el-button--primary、el-button--success、el-button--warning、el-button--danger、el-button--info
+  // 在BEM规范中 primary\success\warning\danger\info 是 Button 组件的不同修饰符,要生成修改器的classname则需要通过@mixin m()
+
+  @each $type in (primary, success, warning, danger, info) {
+    // el-button--primary  ...
+    @include m($type) {
+      // 在当前的装饰器下，设置不同的CSS变量映射，从而达到不同类型的装饰器 对应 不同的样式值
+
+      @include button-variant($type);
+    }
+  }
 
   
 }

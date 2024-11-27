@@ -127,6 +127,20 @@ $text-color: map.merge(
 );
 
 // 边框颜色
+$border-width: 1px !default;
+$border-style: solid !default;
+
+$border-radius: () !default;
+$border-radius: map.merge(
+  (
+    "base": 4px,
+    "small": 2px,
+    "round": 20px,
+    "circle": 100%,
+  ),
+  $border-radius
+);
+
 $border-color: () !default;
 $border-color: map.merge(
   (
