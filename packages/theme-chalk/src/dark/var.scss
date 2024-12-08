@@ -1,0 +1,61 @@
+@use "sass:map";
+@use "sass:math";
+
+@use "../common/var.scss" as common;
+@use "../mixins/mixins.scss" as *;
+
+$colors: () !default;
+@each $type in common.$types {
+  $colors: map.deep-merge(
+    (
+      $type: (
+        "base": map.get(common.$colors, $type, "base"),
+      ),
+    ),
+    $colors
+  ) !global;
+}
+
+@mixin set-color-mix-level(
+  $type,
+  $number,
+  $mode: "light",
+  $mix-color: $color-white
+) {
+  $colors: map.deep-merge(
+    (
+      $type: (
+        "#{$mode}-#{$number}":
+          // color.mix将两种颜色根据一定比例混合在一起，生成另外一种颜色
+        color.mix(
+            $mix-color,
+            map.get($colors, $type, "base"),
+            math.percentage(math.div($number, 10))
+          ),
+      ),
+    ),
+    $colors
+  ) !global;
+}
+
+// 背景颜色
+$bg-color: () !default;
+$bg-color: map.merge(
+  (
+    "page": #0a0a0a,
+    "": #141414,
+    "overlay": #1d1e1f,
+  ),
+  $bg-color
+);
+
+// dark-mode
+@each $type in common.$types {
+  @for $i from 1 through 9 {
+    @include set-color-mix-level($type, $i, "light", map.get($bg-color, ""));
+  }
+}
+
+@each $type in common.$types {
+  @include set-color-mix-level($type, 2, "dark", common.$color-white);
+}

@@ -3,6 +3,13 @@
 @use "sass:map";
 @use "sass:math";
 
+// 整个CSS架构核心思想是: 首先将那些公共样式进行提取 封装 成公共CSS变量，相当于基础类。
+// 然后每个组件又基于公共的CSS变量进行继承封装属于每个组件独立的CSS变量，相当于子类
+// 这样一旦修改基础类的CSS变量，所有继承基础类的组件样式都会发生改变，这个就是使用CSS变量进行封装继承的好处
+// 如果只想对其中某一个组件的样式做深度的定制，则可以只修改组件的CSS变量，这样子就实现了多态
+
+// $ CSS变量可以在  运行时  进行更改值，这也使得整个组件库的样式更改变化有了非常大的灵活性以及方便性
+
 // () scss中 变量空数组 的表示方式
 // !default 表示默认变量，将来可以使用@forward修改默认变量
 // $ 只有使用 !default 标志写入样式表顶层的变量才可以配置,
@@ -87,6 +94,7 @@ $color-info: map.get($colors, "info", "base") !default;
 
 // types
 $types: primary, success, warning, danger, error, info;
+
 @each $type in $types {
   @for $i from 1 through 9 {
     // primary ( 'light-1': #~ ,'light-2': #~ )

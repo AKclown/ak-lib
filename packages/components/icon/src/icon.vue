@@ -6,7 +6,7 @@
 
 <script setup lang="ts">
 import type { CSSProperties } from "vue";
-import { defineProps, computed, defineOptions } from "vue";
+import { computed } from "vue";
 import { useNamespace } from "@akclown-ui/hooks";
 import { addUnit, isUndefined } from "@akclown-ui/utils";
 import { iconProps } from "./icon";
