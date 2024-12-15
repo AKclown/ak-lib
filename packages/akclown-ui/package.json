@@ -2,9 +2,15 @@
   "name": "akclown-ui",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "main": "lib/index.cjs",
+  "module": "es/index.mjs",
+  "peerDependencies": {
+    "vue": "^3.5.12"
+  },
+  "dependencies": {
+    "@element-plus/icons-vue": "^2.0.6",
+    "@vueuse/core": "^9.1.0",
+    "async-validator": "^4.2.5"
   },
   "keywords": [],
   "author": "",

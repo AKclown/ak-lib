@@ -5,7 +5,7 @@ import esbuild from "rollup-plugin-esbuild";
 import replace from '@rollup/plugin-replace';
 import glob from 'fast-glob';
 import { fileURLToPath } from "url";
-import path, { resolve, dirname } from "path";
+import { resolve, dirname } from "path";
 
 // !! 当在一个项目中进行npm install时，项目根目录的package.json中的dependencies、devDependencies、peerDependencies的依赖都会被安装
 // !! 而在子依赖中的npm包则只会安装dependencies中的依赖，也正式基于此原理，我们在打包 npm 包的时候就将一些生产环境的依赖不进行打包，
@@ -40,7 +40,7 @@ const excludeFiles = (files) => {
 }
 
 // 模块化打包任务函数
-const buildModules = async () => {
+export const buildModules = async () => {
 
     // 读取package目录下的所有文件 
     const input = excludeFiles(await glob('**/*.{js,ts,vue}', {
@@ -98,8 +98,6 @@ const buildModules = async () => {
         entryFileNames: `[name].cjs`,
     })
 }
-
-buildModules()
 
 
 

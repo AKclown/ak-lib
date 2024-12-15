@@ -33,7 +33,7 @@ const buildOutput = resolve(projRoot, "dist");
 const epOutput = resolve(buildOutput, "akclown-ui");
 
 // 全量打包任务函数
-const buildFullEntry = async () => {
+export const buildFullEntry = async () => {
     const bundle = await rollup({
         // 配置入口文件
         input: resolve(epRoot, "index.ts"),
@@ -74,5 +74,3 @@ const buildFullEntry = async () => {
         }
     });
 }
-
-buildFullEntry();
